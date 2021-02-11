@@ -12,8 +12,8 @@ reduce(){
 CMD="sudo useradd --system --shell /bin/bash --create-home --home-dir /var/lib/rundeck rundeck" # adiciona o usuário rundeck como subshell
 reduce;
 
-KEY="vagrant ssh automation -c 'sudo cat /root/keys/rundeck.pub'" #Chave pública do usuário rundeck
-CMD="sudo -u rundeck -s /bin/bash -c \" mkdir -p ~/.ssh; echo '$KEY' > ~/.ssh/authorized_keys\"" # Cria o diretorio .ssh e adiciona a chave para authorized_keys
+KEY="$(vagrant ssh automation -c "sudo cat /root/keys/rundeck.pub")"
+CMD="sudo -u rundeck -s /bin/bash -c 'mkdir -p ~/.ssh; echo "$KEY" >> ~/.ssh/authorized_keys'" # Cria o diretorio .ssh e adiciona a chave para authorized_keys
 reduce;
 
 CMD="sudo sed s/vagrant/rundeck/ /etc/sudoers.d/vagrant | sudo tee /etc/sudoers.d/rundeck" #Permite que o usuário rundeck rode comandos sem senha pelo ssh
